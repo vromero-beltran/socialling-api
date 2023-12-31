@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema, model, Types } = require('mongoose');
-const dateFormat = require('../assets/date');
+const dateFns = require('date-fns');
+const { format } = dateFns;
+const dateFormat = (date) => format(date, 'MM/dd/yyyy');
 
 const reactionSchema = new Schema(
     {

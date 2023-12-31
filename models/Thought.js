@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
-const dateFormat = require('../assets/date');
 
 const reactionSchema = require('./Reaction');
 const { Schema, model } = mongoose;
+const dateFns = require('date-fns');
+const { format } = dateFns;
+const dateFormat = (date) => format(date, 'MM/dd/yyyy');
 
 const thoughtSchema = new Schema(
     {
