@@ -10,7 +10,7 @@ module.exports = {
             if (!thoughts) {
                 return res.status(404).json({message: 'No thoughts found.'})
             }
-            
+
             res.json(thoughts);
 
         } catch (err) {
@@ -94,7 +94,8 @@ module.exports = {
 
             res.json({message: 'Reaction created.'});
         } catch (err) {
-            res.status(500).json(err);
+            console.log(err);
+            res.status(500).send({message: 'Something went wrong.'});
         }
     },
 
