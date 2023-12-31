@@ -39,7 +39,7 @@ module.exports = {
             user.thoughts.push(thought._id);
             await user.save();
 
-            res.json(thought);
+            res.json({message: 'Thought created.'});;
         } catch (err) {
             res.status(500).json(err);
         }
@@ -57,7 +57,7 @@ module.exports = {
             user.thoughts.push(thought._id);
             await user.save();
 
-            res.json(thought);
+            res.json({message: 'Thought updated.'});
         } catch (err) {
             res.status(500).json(err);
         }
@@ -67,7 +67,13 @@ module.exports = {
     async deleteThought (req, res) {
         try {
             await Thought.findOneAndDelete({_id: req.params.thoughtId});
+
+            if (!thought) {
+                return res.status(404).json({message: 'No thought found with that ID.'})
+            }
+
             res.json({message: 'Thought deleted.'});
+
         } catch (err) {
             res.status(500).json(err);
         }
@@ -81,8 +87,8 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({message: 'No thought found with that ID.'})
             }
-            
-            res.json(thought);
+
+            res.json({message: 'Reaction created.'});
         } catch (err) {
             res.status(500).json(err);
         }
@@ -96,7 +102,7 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({message: 'No thought found with that ID.'})
             }
-            res.json(thought);
+            res.json({message: 'Reaction deleted.'});
         } catch (err) {
             res.status(500).json(err);
         }
