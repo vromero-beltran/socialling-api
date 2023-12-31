@@ -107,5 +107,26 @@ module.exports = {
         } catch (err) {
             res.status(500).json(err);
         }
+    },
+
+    async addThought(req, res) {
+        try {
+            const { userId } = req.params;
+            const thoughtText = req.body;
+            const thought = await Thought.create({ thoughtText, userId });
+            const user = await User.findOneAndUpdate(
+                { _id: userId },
+                { $push: { thoughts: thought._id } },
+                { new: true }
+            );
+            if (!user) {
+                return res.status(404).json({ message: 'No user found with that ID.' });
+            }
+
+            res.json({ message: 'Thought added!' });;
+
+        } catch (err) {
+            res.status(500).json(err);
+        }
     }
-}
+};
