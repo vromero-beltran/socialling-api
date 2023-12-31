@@ -30,7 +30,7 @@ module.exports = {
     async createThought (req, res) {
         try {
             const thought = await Thought.create(req.body);
-            const user = await User.findOne({username: req.body.username});
+            const user = await User.findOneById(req.body.userId);
 
             if (!user) {
                 return res.status(404).json({message: 'No user found with that username.'})
@@ -49,10 +49,14 @@ module.exports = {
     async updateThought (req, res) {
         try {
             const thought = await Thought.findOneAndUpdate({_id: req.params.thoughtId}, {$set: req.body});
+            const user = await User.findOneById(req.body.userId);
 
-            if (!thought) {
-                return res.status(404).json({message: 'No thought found with that ID.'})
+            if (!user) {
+                return res.status(404).json({message: 'No user found with that username.'})
             }
+            user.thoughts.push(thought._id);
+            await user.save();
+
             res.json(thought);
         } catch (err) {
             res.status(500).json(err);
@@ -77,6 +81,7 @@ module.exports = {
             if (!thought) {
                 return res.status(404).json({message: 'No thought found with that ID.'})
             }
+            
             res.json(thought);
         } catch (err) {
             res.status(500).json(err);

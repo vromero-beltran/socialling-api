@@ -3,10 +3,10 @@ const { Schema, model } = mongoose;
 
 const userSchema = new Schema(
     {
-        username: {
-            type: String,
+        userId: {
+            type: Schema.Types.ObjectId,
             unique: true,
-            required: 'Please enter a username!',
+            required: 'Please enter a user ID!',
             trim: true
         },
         email: {

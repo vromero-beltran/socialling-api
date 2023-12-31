@@ -12,9 +12,9 @@ const reactionSchema = new Schema(
             required: 'Please enter a reaction!',
             maxLength: 280
         },
-        username: {
-            type: String,
-            required: 'Please enter your username!'
+        userId: {
+            type: Schema.Types.ObjectId,
+            required: 'Please enter your user ID!'
         },
         createdAt: {
             type: Date,

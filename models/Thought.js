@@ -17,9 +17,9 @@ const thoughtSchema = new Schema(
             // use a getter method to format the timestamp on query
             get: (createdAtVal) => dateFormat(createdAtVal)
         },
-        username: {
-            type: String,
-            required: 'Please enter your username!'
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
         },
         reactions: [reactionSchema]
     },
