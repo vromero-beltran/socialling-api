@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const { Thought } = require('../models');
 
 // module export
 module.exports = {
@@ -30,7 +31,7 @@ module.exports = {
     async createUser(req, res) {
         try {
             const user = await User.create(req.body);
-            res.json({ message: 'User created!' });
+            res.status(201).json(user);
         } catch (err) {
             res.status(500).json(err);
         }
@@ -111,22 +112,19 @@ module.exports = {
 
     async addThought(req, res) {
         try {
-            const { userId } = req.params;
-            const thoughtText = req.body;
-            const thought = await Thought.create({ thoughtText, userId });
-            const user = await User.findOneAndUpdate(
-                { _id: userId },
-                { $push: { thoughts: thought._id } },
-                { new: true }
-            );
-            if (!user) {
-                return res.status(404).json({ message: 'No user found with that ID.' });
-            }
+            const userId = req.params.userId;
+            
+            const newThought = new Thought({
+                thoughtText: req.body.thoughtText,
+                userId: userId
+            });
 
-            res.json({ message: 'Thought added!' });;
+            await newThought.save();
 
+            res.json({ message: 'Thought added!' });
         } catch (err) {
-            res.status(500).json(err);
+            console.log(err);
+            res.status(500).send("Error adding thought");
         }
     }
 };

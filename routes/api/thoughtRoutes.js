@@ -11,8 +11,7 @@ const {
 } = require('../../controllers/thoughtController');
 
 router.route('/')
-   .get(getAllThoughts)
-   .post(createThought);
+   .get(getAllThoughts);
 
 router.route('/:thoughtId')
    .get(getThoughtById)
