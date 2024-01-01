@@ -1,6 +1,8 @@
 const { User } = require('../models');
 const { Thought } = require('../models');
 
+const {v4: uuidv4} = require('uuid');
+
 // module export
 module.exports = {
 
@@ -27,36 +29,43 @@ module.exports = {
         }
     },
 
-    // create a new user
+    // create a new user and generate a random ID using UUID
     async createUser(req, res) {
         try {
-            const user = await User.create(req.body);
+            const id = uuidv4();
+            
+            const user = await User.create({
+                userId: id,
+                ...req.body
+            });
             res.status(201).json(user);
         } catch (err) {
-            res.status(500).json(err);
+            console.log(err);
+            res.status(500).send({ message: 'Something went wrong.' });
         }
     },
 
-    // update a user by id
+    // update a user's first name and last name by id
     async updateUser(req, res) {
         try {
-            const user = await User.findByIdAndUpdate(req.params.userId, req.body, {
-                new: true,
-                runValidators: true
-            });
+            const user = await User.findByIdAndUpdate(
+                { _id: req.params.userId },
+                { $set: req.body },
+                { new: true }
+            );
             if (!user) {
                 return res.status(404).json({ message: 'No user found with that ID.' });
             }
-            res.json({ message: 'User updated!' });
+            res.json(user);
         } catch (err) {
             res.status(500).json(err);
         }
     },
 
-    // delete a user by id
+    // delete a user with thought by id
     async deleteUser(req, res) {
         try {
-            const user = await User.findByIdAndDelete(req.params.userId);
+            const user = await User.findByIdAndDelete({ _id: req.params.userId });
             if (!user) {
                 return res.status(404).json({ message: 'No user found with that ID.' });
             }

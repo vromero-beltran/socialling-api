@@ -34,6 +34,5 @@ const reactionSchema = new Schema(
     }
 );
 
-const Reaction = mongoose.model('Reaction', reactionSchema);
 
 module.exports = reactionSchema;

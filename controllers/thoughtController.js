@@ -1,11 +1,10 @@
-const { Reaction, Thought, User } = require('../models');
+const { Thought } = require('../models');
 
 module.exports = {
     // get all thoughts
     async getAllThoughts(req, res) {
         try {
-            const thoughts = await Thought.find({})
-            .select('-__v');
+            const thoughts = await Thought.find({}).select('-__v').sort({_id: -1});
 
             if (!thoughts) {
                 return res.status(404).json({message: 'No thoughts found.'})
@@ -37,14 +36,11 @@ module.exports = {
     // update a thought by id
     async updateThought (req, res) {
         try {
-            const thought = await Thought.findOneAndUpdate({_id: req.params.thoughtId}, {$set: req.body});
-            const user = await User.findOneById(req.body.userId);
+            const thought = await Thought.findByIdAndUpdate({_id: req.params.thoughtId}, {$set: req.body}, {new: true});
 
-            if (!user) {
-                return res.status(404).json({message: 'No user found with that username.'})
+            if (!thought) {
+                return res.status(404).json({message: 'No thought found with that ID.'})
             }
-            user.thoughts.push(thought._id);
-            await user.save();
 
             res.json({message: 'Thought updated.'});
         } catch (err) {
@@ -55,16 +51,13 @@ module.exports = {
     // delete a thought by id
     async deleteThought (req, res) {
         try {
-            await Thought.findOneAndDelete({_id: req.params.thoughtId});
-
-            if (!thought) {
-                return res.status(404).json({message: 'No thought found with that ID.'})
-            }
+            await Thought.findByIdAndDelete({_id: req.params.thoughtId});
 
             res.json({message: 'Thought deleted.'});
 
         } catch (err) {
-            res.status(500).json(err);
+            console.log(err);
+            res.status(500).send({message: 'Something went wrong.'});
         }
     },
 
