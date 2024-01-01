@@ -9,11 +9,15 @@ const userSchema = new Schema(
             required: 'Please enter a user ID!',
             trim: true
         },
-        email: {
+        firstName: {
             type: String,
-            required: 'Please enter an email!',
-            unique: true,
-            match: [/.+@.+\..+/, 'Please enter a valid e-mail address']
+            required: 'Please enter a first name!',
+            trim: true
+        },
+        lastName: {
+            type: String,
+            required: 'Please enter a last name!',
+            trim: true
         },
         thoughts: [
             {
