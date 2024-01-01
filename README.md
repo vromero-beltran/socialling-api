@@ -9,9 +9,9 @@
   - [Questions](#questions)
   - [Acceptance Criteria](#acceptance-criteria)
   ## Installation
-  The following necessary dependencies must be installed to run the application, Express and Mongoose
+  The following necessary dependencies must be installed to run the application, date-fns, uuid, express and mongoose.
   ## Usage
-  In order to use this app, npm install, npm start, open up Insomnia and adjust request (GET, PULL, PUSH), type in necessary code if needed.
+  In order to use this app open an integrated terminal on server.js, npm install, npm start, open up Insomnia and adjust request (GET, PULL, PUSH, and DELETE), type in necessary code if needed.
   ## Acceptance Criteria
 
 ```md
